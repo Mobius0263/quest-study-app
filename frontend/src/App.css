@@ -1,0 +1,221 @@
+/* App-level layout additions. Design tokens live in index.css. */
+
+/* ---- Route/loading helpers ---- */
+.app-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -56px;
+  z-index: 200;
+  background: var(--ma);
+  color: var(--ma-ink);
+  font-weight: 900;
+  padding: 10px 16px;
+  border-radius: var(--r-btn);
+  text-decoration: none;
+  transition: top 0.15s;
+}
+.skip-link:focus { top: 16px; }
+
+/* ---- Page composition ---- */
+.screen-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.page-head-copy { min-width: 0; }
+.page-head .screen-subtitle { margin-bottom: 0; }
+.page-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ---- Auth screens ---- */
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;
+  background:
+    radial-gradient(ellipse at 50% 0%, var(--ms2) 0, transparent 58%),
+    var(--mb);
+}
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  min-width: 0;
+  padding: 26px;
+}
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.12rem;
+  color: var(--mt);
+  text-decoration: none;
+}
+.auth-brand .topbar-crest {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+}
+.auth-title {
+  font-size: 1.65rem;
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+.auth-subtitle {
+  color: var(--mm);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin-bottom: 20px;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.form-error {
+  background: var(--danger-soft-bg);
+  border: 2px solid var(--danger-soft-border);
+  color: var(--danger-text);
+  border-radius: 12px;
+  padding: 10px 13px;
+  font-weight: 800;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+.form-hint {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--mm);
+}
+.auth-switch {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--mm);
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+.auth-switch a {
+  color: var(--ma-dark);
+  font-weight: 900;
+  text-decoration: none;
+}
+.auth-switch a:hover { text-decoration: underline; }
+
+/* ---- Loading / empty / error states ---- */
+.state-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 36px 18px;
+  color: var(--mm);
+}
+.state-view-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ms2);
+  color: var(--ma-dark);
+  margin-bottom: 12px;
+}
+.state-view-icon.danger {
+  background: var(--danger-soft-bg);
+  color: var(--danger-text);
+}
+.state-view h3 {
+  color: var(--mt);
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+.state-view p {
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 48ch;
+}
+.state-view-action { margin-top: 16px; }
+.spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid var(--mbord);
+  border-top-color: var(--ma);
+  animation: quest-spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+@keyframes quest-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Temporary batch stub panels ---- */
+.stub-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.stub-kicker {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ma-dark);
+}
+.stub-card h2 {
+  font-size: 1.22rem;
+  line-height: 1.25;
+}
+.stub-card p {
+  color: var(--mm);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  max-width: 62ch;
+}
+.stub-action { margin-top: 4px; }
+
+@media (max-width: 480px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .auth-card { padding: 22px 18px; }
+  .page-head { align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+  .skip-link { transition: none; }
+}

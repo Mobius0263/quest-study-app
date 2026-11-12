@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quest Study - Duolingo Mock (Reference)</title>
+    <style>
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Fredoka:wght@500;600;700&display=swap");
+
+body{margin:0;background:#eef3ec;font-family:"Nunito",sans-serif;color:#17201c}
+.wrap{max-width:860px;margin:0 auto;padding:28px 16px 48px}
+h1{font-family:"Fredoka",sans-serif;font-size:1.5rem;margin:0 0 6px}
+.sub{color:#5b6a60;margin:0 0 18px;font-size:.95rem}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tabs button{border:2px solid #e0e0e0;background:#fff;border-radius:999px;padding:8px 16px;font-family:"Nunito",sans-serif;font-weight:800;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:#58cc02;border-color:#58cc02;color:#fff;box-shadow:0 3px 0 #46a302}
+.note{margin-top:16px;font-size:.88rem;color:#5b6a60}
+.mock {
+        --mb: #fff; --ms: #fff; --ms2: #f4f4f4; --mt: #222; --mm: #777;
+        --ma: #58cc02; --ma-ink: #fff; --ma2: #ff9600; --mbord: #e5e5e5;
+        --mr: 16px; --mfont: "Plus Jakarta Sans", sans-serif; --mhfont: "Plus Jakarta Sans", sans-serif;
+        --mshadow: 0 2px 8px rgba(0,0,0,.06);
+        background: var(--mb); color: var(--mt);
+        font-family: var(--mfont);
+        border-radius: 22px;
+        border: 1px solid var(--mbord);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        font-size: 14.5px;
+      }
+      .mock h3, .mock h4 { font-family: var(--mhfont); }
+      .m-topbar {
+        display: flex; align-items: center; gap: 10px;
+        padding: 13px 18px; border-bottom: 1px solid var(--mbord);
+        background: var(--ms);
+      }
+      .m-logo { font-family: var(--mhfont); font-weight: 800; font-size: 1.02rem; display: flex; align-items: center; gap: 8px; }
+      .m-logo .crest {
+        width: 28px; height: 28px; border-radius: 8px; background: var(--ma); color: var(--ma-ink);
+        display: inline-flex; align-items: center; justify-content: center; flex: none;
+      }
+      .m-nav { margin-left: auto; display: flex; gap: 4px; align-items: center; }
+      .m-nav span {
+        font-size: 0.8rem; font-weight: 700; color: var(--mm);
+        padding: 5px 9px; border-radius: 8px;
+      }
+      .m-nav span.on { color: var(--ma); background: var(--ms2); }
+      .m-avatar {
+        width: 30px; height: 30px; border-radius: 50%; background: var(--ma2); color: #fff;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 0.78rem; flex: none;
+      }
+      .m-body { padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+      .m-greet h3 { font-size: 1.28rem; line-height: 1.2; }
+      .m-greet p { color: var(--mm); font-size: 0.88rem; margin-top: 3px; }
+
+      .m-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+      @media (max-width: 560px) { .m-stats { grid-template-columns: repeat(2, 1fr); } }
+      .m-stat {
+        background: var(--ms); border: 1px solid var(--mbord); border-radius: var(--mr);
+        padding: 12px 13px; box-shadow: var(--mshadow);
+      }
+      .m-stat .k { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--mm); display: flex; align-items: center; gap: 5px; }
+      .m-stat .v { font-size: 1.22rem; font-weight: 800; margin-top: 4px; line-height: 1.1; }
+      .m-stat .s { font-size: 0.76rem; color: var(--mm); margin-top: 2px; }
+      .m-bar { height: 10px; border-radius: 999px; background: var(--ms2); overflow: hidden; margin-top: 8px; border: 1px solid var(--mbord); }
+      .m-bar i { display: block; height: 100%; background: var(--ma); border-radius: 999px; }
+      .m-bar.hp i { background: #e5484d; }
+      .m-bar.mp i { background: #4f7dd1; }
+
+      .m-sec-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+      .m-sec-head h4 { font-size: 1rem; }
+      .m-tabs { display: flex; gap: 5px; flex-wrap: wrap; }
+      .m-tabs span {
+        font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 999px;
+        border: 1px solid var(--mbord); color: var(--mm); background: var(--ms);
+      }
+      .m-tabs span.on { background: var(--ma); border-color: var(--ma); color: var(--ma-ink); }
+
+      .m-quests { display: flex; flex-direction: column; gap: 10px; }
+      .m-qcard {
+        background: var(--ms); border: 1px solid var(--mbord); border-radius: var(--mr);
+        padding: 13px 15px; box-shadow: var(--mshadow);
+        display: flex; gap: 12px; align-items: flex-start;
+      }
+      .m-check {
+        width: 24px; height: 24px; border-radius: 7px; border: 2px solid var(--mbord);
+        flex: none; margin-top: 2px; display: inline-flex; align-items: center; justify-content: center;
+        color: #fff; font-size: 0.8rem; font-weight: 900;
+      }
+      .m-check.done { background: var(--ma); border-color: var(--ma); }
+      .m-qmain { flex: 1; min-width: 0; }
+      .m-qtitle { font-weight: 800; font-size: 0.98rem; line-height: 1.3; }
+      .m-qmeta { display: flex; flex-wrap: wrap; gap: 5px 7px; margin-top: 6px; align-items: center; }
+      .tag {
+        font-size: 0.7rem; font-weight: 800; padding: 2.5px 8px; border-radius: 999px;
+        background: var(--ms2); color: var(--mm); border: 1px solid var(--mbord);
+        display: inline-flex; align-items: center; gap: 4px;
+      }
+      .tag .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+      .tag.type-a { background: #e8effc; color: #1d4fa1; border-color: #c9dbfa; }
+      .tag.type-r { background: #e7f6ec; color: #157347; border-color: #c2e8cf; }
+      .tag.xp { background: var(--amber-soft, #fdf0dd); color: #92580a; border-color: #f3ddba; }
+      .m-due { font-size: 0.78rem; color: var(--mm); font-weight: 600; display: inline-flex; gap: 4px; align-items: center; }
+      .m-qbtn {
+        flex: none; border: 0; border-radius: 10px; padding: 8px 13px;
+        background: var(--ma); color: var(--ma-ink); font-weight: 800; font-size: 0.8rem;
+      }
+      .m-qbtn.ghost { background: var(--ms2); color: var(--mt); border: 1px solid var(--mbord); }
+
+      .m-boss {
+        border-radius: var(--mr); padding: 16px; color: #fff;
+        background: #20242b; border: 1px solid #20242b;
+        display: flex; flex-direction: column; gap: 10px;
+      }
+      .m-boss .b-top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+      .m-boss h4 { font-size: 1.05rem; color: #fff; }
+      .m-boss .b-sub { font-size: 0.82rem; color: #c6ccd6; }
+      .m-boss .timer {
+        background: #fff; color: #20242b; font-weight: 900; border-radius: 999px;
+        padding: 4px 12px; font-size: 0.85rem; font-variant-numeric: tabular-nums;
+      }
+      .m-boss .m-bar { background: #3a4150; border-color: #3a4150; height: 13px; }
+      .m-boss .hp-label { display: flex; justify-content: space-between; font-size: 0.74rem; font-weight: 700; color: #c6ccd6; }
+      .m-boss .start {
+        align-self: flex-start; background: #e5484d; color: #fff; border: 0; font-weight: 900;
+        border-radius: 10px; padding: 9px 18px; font-size: 0.86rem;
+      }
+
+      /* Teacher screen */
+      .m-trow {
+        display: grid; grid-template-columns: 1.5fr 0.8fr 0.6fr 0.8fr 0.9fr; gap: 8px;
+        padding: 10px 14px; align-items: center; font-size: 0.86rem;
+        border-bottom: 1px solid var(--mbord); background: var(--ms);
+      }
+      .m-trow.head { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mm); background: var(--ms2); }
+      .m-trow .who { font-weight: 700; display: flex; gap: 8px; align-items: center; min-width: 0; }
+      .m-trow .who .m-avatar { width: 24px; height: 24px; font-size: 0.66rem; }
+      .m-twrap { border: 1px solid var(--mbord); border-radius: var(--mr); overflow: hidden; box-shadow: var(--mshadow); }
+      .m-twrap .m-trow:last-child { border-bottom: 0; }
+      .status { font-size: 0.7rem; font-weight: 800; padding: 2.5px 8px; border-radius: 999px; background: #e7f6ec; color: #157347; border: 1px solid #c2e8cf; white-space: nowrap; }
+      .status.mid { background: #fdf0dd; color: #92580a; border-color: #f3ddba; }
+      .status.low { background: #fdeaea; color: #b02a2e; border-color: #f6caca; }
+      @media (max-width: 560px) {
+        .m-trow { grid-template-columns: 1.3fr 0.7fr 0.9fr; }
+        .m-trow .hide-m { display: none; }
+      }
+      .m-create-row { display: flex; gap: 9px; flex-wrap: wrap; }
+      .m-create {
+        border: 0; border-radius: 11px; padding: 10px 16px; font-weight: 800; font-size: 0.86rem;
+        background: var(--ma); color: var(--ma-ink); display: inline-flex; gap: 7px; align-items: center;
+      }
+      .m-create.ghost { background: var(--ms); color: var(--mt); border: 1.5px solid var(--mbord); }
+
+      /* Boss fight screen */
+      .m-fight-head { display: flex; flex-direction: column; gap: 8px; }
+      .m-fight-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .m-bossname { display: flex; align-items: center; gap: 10px; font-family: var(--mhfont); font-weight: 800; font-size: 1.08rem; }
+      .m-bossface {
+        width: 42px; height: 42px; border-radius: 12px; background: #e5484d; color: #fff; flex: none;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .m-question {
+        background: var(--ms); border: 1px solid var(--mbord); border-radius: var(--mr);
+        padding: 18px; box-shadow: var(--mshadow);
+      }
+      .m-question .qk { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--mm); }
+      .m-question .qt { font-size: 1.14rem; font-weight: 700; margin-top: 8px; line-height: 1.45; }
+      .m-question .qt .frac { font-variant-numeric: tabular-nums; }
+      .m-answers { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+      @media (max-width: 480px) { .m-answers { grid-template-columns: 1fr; } }
+      .m-ans {
+        display: flex; gap: 10px; align-items: center; text-align: left;
+        background: var(--ms); border: 1.5px solid var(--mbord); border-radius: var(--mr);
+        padding: 12px 14px; font-weight: 700; color: var(--mt); box-shadow: var(--mshadow);
+      }
+      .m-ans .letter {
+        width: 26px; height: 26px; border-radius: 8px; background: var(--ms2); border: 1px solid var(--mbord);
+        display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 900; flex: none;
+      }
+      .m-ans.sel { border-color: var(--ma); background: var(--ms2); }
+      .m-ans.sel .letter { background: var(--ma); color: var(--ma-ink); border-color: var(--ma); }
+      .m-fight-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .m-dots { display: flex; gap: 5px; }
+      .m-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--mbord); display: block; }
+      .m-dots i.done { background: var(--ma); }
+      .m-dots i.now { background: var(--ma2); }
+      .m-check-btn { border: 0; background: var(--ma); color: var(--ma-ink); font-weight: 900; border-radius: 11px; padding: 11px 22px; font-size: 0.9rem; }
+
+      .m-mastery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+      @media (max-width: 560px) { .m-mastery { grid-template-columns: repeat(2, 1fr); } }
+      .m-ring-card {
+        background: var(--ms); border: 1px solid var(--mbord); border-radius: var(--mr);
+        padding: 12px; text-align: center; box-shadow: var(--mshadow);
+      }
+      .m-ring-card .rn { font-weight: 800; font-size: 0.82rem; margin-top: 6px; }
+      .m-ring-card .rl { font-size: 0.72rem; color: var(--mm); font-weight: 700; }
+      .ring-wrap { position: relative; width: 62px; height: 62px; margin: 0 auto; }
+      .ring-wrap .rv {
+        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        font-weight: 900; font-size: 0.86rem;
+      }
+    
+.subj-tile{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+      .subj-tile svg{width:26px;height:26px}
+      .gem-row{display:inline-flex;gap:2px;align-items:center}
+      .gem-row svg{width:13px;height:13px}
+      .gem-off{opacity:.22}
+      .badge-row{display:flex;gap:10px;flex-wrap:wrap}
+      .badge-item{flex:1;min-width:86px;text-align:center;background:var(--ms);border:1.5px solid var(--mbord);border-radius:var(--mr);padding:10px 6px}
+      .badge-item .bart{width:46px;height:46px;margin:0 auto 6px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff}
+      .badge-item.locked{opacity:.45;filter:grayscale(1)}
+      .badge-item b{display:block;font-size:.72rem;line-height:1.25}
+      .badge-item span{font-size:.66rem;color:var(--mm);font-weight:700}
+      /* Boss arena & sprite */
+      .boss-stage{position:relative;border-radius:16px;overflow:hidden;padding:18px 14px 12px;text-align:center;background:radial-gradient(ellipse at 50% 100%,#ffe9a8 0 28%,transparent 29%),linear-gradient(180deg,#8ed6ff 0 62%,#7ac74f 62%);border:2px solid var(--mbord)}
+      .boss-sprite{width:132px;height:132px;margin:0 auto;animation:bossFloat 2.6s ease-in-out infinite;filter:drop-shadow(0 10px 8px rgba(0,0,0,.25));position:relative;z-index:2}
+      .boss-sprite.small{width:84px;height:84px}.boss-sprite.large{width:168px;height:168px}
+      .boss-sprite svg{width:100%;height:100%;overflow:visible}
+      .boss-eyes{animation:blink 4s infinite;transform-origin:center}
+      @keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+      @keyframes bossFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
+      .boss-sprite.hit{animation:bossHit .6s ease}
+      @keyframes bossHit{0%{transform:translateX(0);filter:brightness(2) saturate(.3)}20%{transform:translateX(-10px) rotate(-4deg);filter:brightness(1.8) hue-rotate(-40deg)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}100%{transform:translateX(0)}}
+      .boss-sprite.defeated{animation:bossFall 1s forwards}
+      @keyframes bossFall{to{transform:translateY(26px) rotate(72deg);opacity:.25;filter:grayscale(1)}}
+      .dmg-pop{position:absolute;left:50%;top:18px;transform:translateX(-50%);font-weight:900;color:#e5484d;background:#fff;border-radius:999px;padding:3px 10px;font-size:.85rem;opacity:0;pointer-events:none;z-index:3}
+      .dmg-pop.show{animation:popDmg 1s forwards}@keyframes popDmg{0%{opacity:0;transform:translate(-50%,8px) scale(.8)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-24px) scale(1.1)}}
+      .speech{background:#fff;color:#222;border-radius:14px;padding:8px 12px;font-weight:800;font-size:.82rem;display:inline-block;margin-bottom:8px;box-shadow:0 3px 0 rgba(0,0,0,.12);position:relative;z-index:2}
+      .hero-mini{width:64px;height:64px;animation:bossFloat 3s ease-in-out infinite}
+      /* Duo path layout */
+      .path-list{position:relative;display:flex;flex-direction:column;gap:14px;align-items:center;padding:6px 0}
+      .path-list:before{content:"";position:absolute;top:10px;bottom:10px;width:8px;background:repeating-linear-gradient(180deg,var(--ms2) 0 14px,#fff 14px 22px);border-radius:99px}
+      .path-node{position:relative;z-index:1;width:88%;display:flex;gap:12px;align-items:center;background:var(--ms);border:2px solid var(--mbord);border-radius:20px;padding:12px;box-shadow:0 4px 0 var(--mbord)}
+      .path-node:nth-child(odd){transform:translateX(-14px)}.path-node:nth-child(even){transform:translateX(14px)}
+      .path-dot{width:52px;height:52px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 0 rgba(0,0,0,.2)}
+      /* Calm sidebar */
+      /* Khan grid */
+      .layout-note{font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--ma);display:flex;gap:6px;align-items:center}
+      .theme-duo{--mhfont:"Fredoka",sans-serif;--mr:22px}
+      /* Quest board + quest detail (regular quest UI — calm, no timer / HP / damage) */
+      .status-pill{font-size:.7rem;font-weight:800;padding:2.5px 8px;border-radius:999px;white-space:nowrap;border:1px solid var(--mbord);background:#f4f4f4;color:var(--mm)}
+      .status-pill.prog{background:#fdf0dd;color:#92580a;border-color:#f3ddba}
+      .status-pill.done{background:#e7f6ec;color:#157347;border-color:#c2e8cf}
+      .filter-block{display:flex;flex-direction:column;gap:7px}
+      .filter-label{font-size:.68rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--mm)}
+      .filter-row{display:flex;gap:5px;flex-wrap:wrap}
+      .filter-chip{font-family:"Nunito",sans-serif;font-size:.74rem;font-weight:800;padding:5px 11px;border-radius:999px;border:2px solid var(--mbord);color:var(--mm);background:var(--ms);cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+      .filter-chip[aria-pressed="true"]{background:var(--ma);border-color:var(--ma);color:#fff;box-shadow:0 3px 0 #46a302}
+      .board-card{cursor:pointer;text-align:left;width:100%;font-family:inherit}
+      .board-card:hover{border-color:var(--ma)}
+      .detail-head{position:relative;background:var(--ms);border:2px solid var(--mbord);border-radius:var(--mr);padding:16px;box-shadow:0 3px 0 var(--mbord)}
+      .detail-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+      @media (max-width:560px){.detail-tiles{grid-template-columns:1fr}}
+      .step-row{display:flex;gap:11px;align-items:center;width:100%;text-align:left;background:var(--ms);border:1.5px solid var(--mbord);border-radius:14px;padding:11px 13px;font-family:inherit;font-weight:700;color:var(--mt);cursor:pointer;min-height:44px}
+      .step-row.locked{cursor:default;opacity:.85}
+      .step-box{width:24px;height:24px;border-radius:7px;border:2px solid var(--mbord);flex:none;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:900;background:#fff}
+      .step-box.done{background:var(--ma);border-color:var(--ma)}
+      .step-row .done-label{text-decoration:line-through;color:var(--mm)}
+      .reward-pop{position:absolute;left:50%;top:10px;transform:translateX(-50%);font-weight:900;color:#1a9e54;background:#fff;border:2px solid var(--ma);border-radius:999px;padding:4px 14px;font-size:.9rem;opacity:0;pointer-events:none;z-index:4;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+      .reward-pop.show{animation:popReward 1s forwards}@keyframes popReward{0%{opacity:0;transform:translate(-50%,8px) scale(.8)}18%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-22px) scale(1.05)}}
+      .xp-bar-anim i{transition:width .6s ease}
+      .boss-locked{border:2px dashed var(--mbord);border-radius:var(--mr);padding:14px 16px;background:var(--ms2);color:var(--mm);display:flex;gap:12px;align-items:center;font-weight:700;font-size:.88rem}
+      .boss-unlocked{border-radius:var(--mr);padding:16px;color:#3b105f;background:#ce82ff;border:2px solid #a560e8;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+      .boss-unlocked .fight-btn{border:0;background:#e5484d;color:#fff;font-weight:900;border-radius:11px;padding:10px 18px;font-size:.86rem;cursor:pointer;box-shadow:0 4px 0 #d33131;font-family:"Nunito",sans-serif;text-transform:uppercase;letter-spacing:.03em}
+      .complete-btn{border:0;background:var(--ma);color:#fff;font-weight:900;border-radius:11px;padding:13px 22px;font-size:.92rem;cursor:pointer;box-shadow:0 4px 0 #46a302;font-family:"Nunito",sans-serif;text-transform:uppercase;letter-spacing:.03em;width:100%}
+      .complete-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #46a302}
+      .completed-banner{background:#e7f6ec;border:2px solid #c2e8cf;color:#157347;border-radius:var(--mr);padding:13px 16px;font-weight:800;display:flex;gap:9px;align-items:center}
+      .back-btn{border:1.5px solid var(--mbord);background:var(--ms);color:var(--mt);border-radius:11px;padding:8px 14px;font-weight:800;font-size:.82rem;cursor:pointer;font-family:"Nunito",sans-serif;align-self:flex-start}
+      @media (prefers-reduced-motion: reduce){.boss-sprite,.hero-mini,.boss-eyes{animation:none!important}.reward-pop.show{animation-duration:.01s}.xp-bar-anim i{transition:none}}
+    
+.quiz-panel{border:2px solid var(--mbord);border-radius:var(--mr);padding:16px;background:var(--ms);box-shadow:0 3px 0 var(--mbord)}
+      .quiz-panel .m-ans[disabled]{opacity:.75;cursor:default}
+      .streak-pill{display:inline-flex;gap:5px;align-items:center;background:#fdf0dd;color:#92580a;border:1px solid #f3ddba;border-radius:999px;padding:3px 10px;font-weight:900;font-size:.78rem}
+      .attempt-pill{display:inline-flex;background:var(--ms2);border:1px solid var(--mbord);border-radius:999px;padding:3px 10px;font-weight:800;font-size:.78rem;color:var(--mm)}
+      .end-panel{border-radius:var(--mr);padding:18px;text-align:center;border:2px solid var(--mbord)}
+      .end-panel.win{background:#e7f6ec;border-color:#157347}
+      .end-panel.lose{background:#fdeaea;border-color:#b02a2e}
+      .end-panel h4{font-size:1.25rem;margin:0 0 8px}
+      .retry-btn{border:0;background:#e5484d;color:#fff;font-weight:900;border-radius:11px;padding:11px 20px;cursor:pointer;box-shadow:0 4px 0 #d33131;font-family:"Nunito",sans-serif;text-transform:uppercase}
+      .quiz-start-btn{border:0;background:var(--ma);color:#fff;font-weight:900;border-radius:10px;padding:8px 14px;cursor:pointer;box-shadow:0 3px 0 #46a302;font-family:"Nunito",sans-serif;flex:none}
+      .complete-btn[disabled]{opacity:.5;box-shadow:none;cursor:not-allowed}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Quest Study - Duolingo style mock</h1>
+      <p class="sub">Reference export from the Quest Study UI Styles comparison page, Duolingo view only.
+      This is a visual reference, not production React code - rebuild it as React components that call the planned REST API.
+      The Quest Board filters work, quest cards open the Quest Detail, and completing the quest there shows the reward pop and unlocks the boss.
+      The Quest Detail quiz step is playable (5 questions, pass 4 of 5, no timer) and the Boss Fight is a playable exam: 20 randomised questions, a 1-hour timer, boss and player HP, streak bonuses and win/lose states with at most 2 retries.</p>
+      <div class="tabs" id="tabs" role="group" aria-label="Screen">
+        <button type="button" data-screen="dashboard" aria-pressed="true">Student Dashboard</button>
+        <button type="button" data-screen="quests" aria-pressed="false">Quest Board</button>
+        <button type="button" data-screen="quest-detail" aria-pressed="false">Quest Detail</button>
+        <button type="button" data-screen="teacher" aria-pressed="false">Teacher View</button>
+        <button type="button" data-screen="boss" aria-pressed="false">Boss Fight</button>
+      </div>
+      <div id="stage"></div>
+      <p class="note">Sample data is the comparison page's shared sample content (Level 7, 1,240 / 1,400 XP, 12-day streak,
+      daily goal 3 of 4, boss quiz: Limit &amp; Turunan). The Quest Board and Quest Detail use the same sample quests, extended with a
+      status, a description and steps so the regular quest flow can be shown end to end. See tokens.css / tokens.json for the exact design tokens,
+      boss-golem.svg for the boss sprite, and icons.svg for the icon set.</p>
+    </div>
+    <script>
+var QUESTS = [
+        { subject: "Matematika", color: "#2563eb", title: "Limit Fungsi", type: "Assignment", typeCls: "type-a", diff: "Hard", xp: 100, due: "Fri 13 Nov", done: false, status: "in-progress", statusLabel: "In progress",
+          desc: "Work through the limit material for this week: direct substitution, factorising when substitution gives 0/0, and limits that use standard forms. Done means you can solve each step below without looking at the worked examples.",
+          steps: ["Read the notes on direct substitution", "Do the factorising examples (0/0 cases)", "Practise 5 limit questions on your own", "Write down the one method you still find hardest", "Quest quiz \u00b7 5 questions \u00b7 pass 4 of 5"], linkedBoss: true, quizStepIndex: 4 },
+        { subject: "Biologi", color: "#16a34a", title: "Fotosintesis", type: "Revision", typeCls: "type-r", diff: "Medium", xp: 50, due: "Sun 15 Nov", done: true, status: "done", statusLabel: "Done",
+          desc: "Revise photosynthesis for the upcoming test: the light-dependent and light-independent stages, and the factors that change the rate.",
+          steps: ["Re-read the chapter summary", "Draw the two stages from memory", "Test yourself with the factor cards"], linkedBoss: false },
+        { subject: "Fisika", color: "#d97706", title: "Gerak Parabola", type: "Assignment", typeCls: "type-a", diff: "Medium", xp: 50, due: "Mon 16 Nov", done: false, status: "in-progress", statusLabel: "In progress",
+          desc: "Projectile motion practice: split the motion into horizontal and vertical parts and solve for range, height and time of flight.",
+          steps: ["Review the component formulas", "Work through the range examples", "Attempt the mixed problem set"], linkedBoss: false },
+        { subject: "Bahasa Inggris", color: "#db2777", title: "Essay Structure", type: "Revision", typeCls: "type-r", diff: "Easy", xp: 20, due: "Wed 18 Nov", done: false, status: "not-started", statusLabel: "Not started",
+          desc: "Revise the five-paragraph essay structure: thesis statement, topic sentences and linking words between paragraphs.",
+          steps: ["Read the model essay", "Label its thesis and topic sentences", "Outline one essay of your own"], linkedBoss: false }
+      ];
+      var STUDENTS = [
+        { name: "Aisyah Putri", init: "AP", quests: "4 / 4", xp: "1,480", quiz: "92", status: "On track", cls: "" },
+        { name: "Citra Lestari", init: "CL", quests: "4 / 4", xp: "1,390", quiz: "88", status: "On track", cls: "" },
+        { name: "Budi Santoso", init: "BS", quests: "3 / 4", xp: "1,105", quiz: "76", status: "Almost there", cls: "mid" },
+        { name: "Dimas Pratama", init: "DP", quests: "2 / 4", xp: "860", quiz: "64", status: "Needs a nudge", cls: "low" },
+        { name: "Eka Nurhaliza", init: "EN", quests: "3 / 4", xp: "1,020", quiz: "81", status: "On track", cls: "" }
+      ];
+      var MASTERY = [
+        { subject: "Matematika", color: "#2563eb", pct: 72, level: "Proficient" },
+        { subject: "Biologi", color: "#16a34a", pct: 58, level: "Proficient" },
+        { subject: "Fisika", color: "#d97706", pct: 41, level: "Familiar" },
+        { subject: "Bahasa Inggris", color: "#db2777", pct: 85, level: "Mastered" }
+      ];
+
+      function icon(path, size) {
+        return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg>';
+      }
+      var IC = {
+        flame: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+        zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+        check: '<path d="M20 6 9 17l-5-5"/>',
+        clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+        sword: '<path d="m14.5 12.5-8 8a2.12 2.12 0 1 1-3-3l8-8"/><path d="m16 16 2-2"/><path d="m17 11 4.3-4.3a2.41 2.41 0 0 0-3.4 0L13.5 11z"/>',
+        star: '<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',
+        plus: '<path d="M12 5v14M5 12h14"/>',
+        target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+        shield: '<path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/>'
+      };
+      var SUBJ = {
+        "Matematika": '<path d="M18 5H7l6 7-6 7h11"/><path d="M7 5v0" stroke-width="3"/>',
+        "Biologi": '<path d="M11 20A7 7 0 0 1 4 13c0-5 4-9 16-9 0 12-4 16-9 16z"/><path d="M4 21c4-6 8-9 12-11"/>',
+        "Fisika": '<circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(65 12 12)"/>',
+        "Bahasa Inggris": '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>'
+      };
+      function subjIcon(s,sz){return icon(SUBJ[s]||IC.star, sz||24);}
+      function gemSVG(on){return '<svg viewBox="0 0 24 24" fill="'+(on?'#38bdf8':'#94a3b8')+'" class="'+(on?'':'gem-off')+'" aria-hidden="true"><path d="M7 3h10l4 6-9 12L3 9z"/><path d="M3 9h18M12 21L8 9l4-6 4 6z" stroke="#fff" stroke-width="1.2" fill="none"/></svg>';}
+      function gems(diff){var n=diff==='Hard'?3:diff==='Medium'?2:1;var h='<span class="gem-row" title="'+diff+'">';for(var i=0;i<3;i++)h+=gemSVG(i<n);return h+'</span><span style="font-weight:800;font-size:.72rem">'+diff+'</span>';}
+      function golemSVG(){
+        return '<svg viewBox="0 0 120 120" role="img" aria-label="Granite golem boss sprite"><path d="M60 8l10 14-10 6-10-6z" fill="#a855f7"/><path d="M38 30l22-10 22 10 8 22-10 28H40L30 52z" fill="#64748b"/><path d="M38 30l22 8 22-8-8 18H46z" fill="#7d8da3"/><circle cx="48" cy="48" r="6" fill="#fbbf24" class="boss-eyes"/><circle cx="72" cy="48" r="6" fill="#fbbf24" class="boss-eyes"/><circle cx="48" cy="48" r="2.5" fill="#111"/><circle cx="72" cy="48" r="2.5" fill="#111"/><path d="M48 66h24l-4 6H52z" fill="#1f2937"/><path d="M30 52L12 72l8 22 16-4-4-24zM90 52l18 20-8 22-16-4 4-24z" fill="#55677e"/><path d="M45 82h30l6 22H39z" fill="#475569"/><path d="M42 96h14v14H44zM64 96h14v14H66z" fill="#334155"/><path d="M40 34l-6-10M82 32l8-12" stroke="#22c55e" stroke-width="5" stroke-linecap="round"/><path d="M52 78l8-8 6 10" stroke="#fbbf24" stroke-width="3" fill="none"/></svg>';
+      }
+      function bossSprite(styleId,size){
+        if(styleId==='classroom') return '<div class="boss-sprite '+(size||'')+'" style="animation:none"><div style="width:100%;height:100%;background:#e8eaed;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#5f6368">'+icon(IC.shield,54)+'</div></div>';
+        return '<div class="boss-sprite '+(size||'')+'" data-boss-sprite>'+golemSVG()+'</div>';
+      }
+      function heroSVG(){
+        return '<svg viewBox="0 0 120 120" class="hero-mini" aria-label="Student hero sprite"><circle cx="60" cy="34" r="18" fill="#fbbf24"/><path d="M42 34a18 18 0 0 1 36 0l-6-16H48z" fill="#2563eb"/><circle cx="53" cy="34" r="2.5" fill="#111"/><circle cx="67" cy="34" r="2.5" fill="#111"/><path d="M60 52l-22 34 14 24h16l14-24z" fill="#16a34a"/><path d="M82 58l18 10-6 8-16-8z" fill="#94a3b8"/><rect x="50" y="72" width="20" height="14" rx="2" fill="#fff"/><path d="M54 79h12" stroke="#2563eb" stroke-width="2"/></svg>';
+      }
+      function badgeRow(){
+        var b=[['First Quest','#f59e0b',IC.check,'Earned'],['Boss Slayer','#e5484d',IC.sword,'Earned'],['7-Day Flame','#ff9600',IC.flame,'Earned'],['Mastermind','#2563eb',IC.star,'Locked']];
+        return '<div><div class="m-sec-head" style="margin-bottom:10px"><h4>Badges — artwork, not dots</h4></div><div class="badge-row">'+b.map(function(x){return '<div class="badge-item '+(x[3]==='Locked'?'locked':'')+'"><div class="bart" style="background:'+x[1]+'">'+icon(x[2],22)+'</div><b>'+x[0]+'</b><span>'+x[3]+'</span></div>';}).join('')+'</div></div>';
+      }
+
+      /* ================= Mock builders ================= */
+      function topbar(active) {
+        var nav = ["Dashboard", "Quests", "Profile"];
+        var spans = nav.map(function (n) {
+          return '<span class="' + (n === active ? "on" : "") + '">' + n + "</span>";
+        }).join("");
+        return '<div class="m-topbar"><div class="m-logo"><span class="crest">' + icon(IC.shield, 15) + '</span>Quest Study</div>' +
+          '<div class="m-nav">' + spans + '<span class="m-avatar">M</span></div></div>';
+      }
+
+      function statsStrip(styleId) {
+        var streakCls = (styleId === "duo" || styleId === "hybrid" || styleId === "rpg") ? ' class="v streak-v"' : ' class="v"';
+        var html = '<div class="m-stats">' +
+          '<div class="m-stat"><div class="k">' + icon(IC.star, 12) + ' Level</div><div class="v">7</div><div class="s">Scholar rank</div></div>' +
+          '<div class="m-stat"><div class="k">' + icon(IC.zap, 12) + ' XP</div><div class="v">1,240</div><div class="s">160 XP to Level 8</div><div class="m-bar"><i style="width:88.6%"></i></div></div>' +
+          '<div class="m-stat"><div class="k">' + icon(IC.flame, 12) + ' Streak</div><div' + streakCls + '>12 days</div><div class="s">Personal best: 15</div></div>' +
+          '<div class="m-stat"><div class="k">' + icon(IC.target, 12) + ' Daily goal</div><div class="v">3 of 4</div><div class="s">quests done today</div><div class="m-bar"><i style="width:75%"></i></div></div>' +
+          "</div>";
+        if (styleId === "rpg") {
+          html += '<div class="m-stat" style="display:flex;flex-direction:column;gap:7px">' +
+            '<div class="k">' + icon(IC.shield, 12) + ' Hero — Mobius, Lv.7 Scholar</div>' +
+            '<div><div class="hp-label" style="display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;color:var(--mm)"><span>HP</span><span>84 / 100</span></div><div class="m-bar hp" style="margin-top:3px"><i style="width:84%"></i></div></div>' +
+            '<div><div class="hp-label" style="display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;color:var(--mm)"><span>MP</span><span>40 / 60</span></div><div class="m-bar mp" style="margin-top:3px"><i style="width:66%"></i></div></div>' +
+            '<div class="s" style="margin-top:0">Gold: 320 · Party: XII IPA 1</div></div>';
+        }
+        return html;
+      }
+
+      function ringSVG(pct, color) {
+        var c = 163.36, off = (c * (1 - pct / 100)).toFixed(1);
+        return '<div class="ring-wrap"><svg width="62" height="62" viewBox="0 0 62 62">' +
+          '<circle cx="31" cy="31" r="26" fill="none" stroke="var(--ms2)" stroke-width="7"/>' +
+          '<circle cx="31" cy="31" r="26" fill="none" stroke="' + color + '" stroke-width="7" stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + off + '" transform="rotate(-90 31 31)"/>' +
+          '</svg><span class="rv">' + pct + '%</span></div>';
+      }
+
+      function masteryRow() {
+        var cards = MASTERY.map(function (m) {
+          return '<div class="m-ring-card">' + ringSVG(m.pct, m.color) +
+            '<div class="rn">' + m.subject + '</div><div class="rl">' + m.level + "</div></div>";
+        }).join("");
+        return '<div><div class="m-sec-head" style="margin-bottom:10px"><h4>Mastery by subject</h4></div><div class="m-mastery">' + cards + "</div></div>";
+      }
+
+      function questCard(q, teacher, styleId) {
+        var check = teacher ? "" :
+          '<span class="m-check' + (q.done ? " done" : "") + '">' + (q.done ? icon(IC.check, 13) : "") + "</span>";
+        var btn = teacher
+          ? '<button type="button" class="m-qbtn ghost">View</button>'
+          : '<button type="button" class="m-qbtn js-quest-btn">' + (q.done ? "Done" : "Start") + "</button>";
+        if(styleId==='classroom'){
+          return '<div class="m-qcard"><span class="subj-tile" style="background:'+q.color+'">'+subjIcon(q.subject,20)+'</span><div class="m-qmain"><div class="m-qtitle">'+q.title+'</div><div class="m-qmeta"><span>'+q.subject+' · '+q.type+'</span><span class="m-due">'+icon(IC.clock,12)+' Due '+q.due+'</span><span>'+q.xp+' points</span></div></div>'+btn+'</div>';
+        }
+        return '<div class="m-qcard">' + check +
+          '<span class="subj-tile" style="background:' + q.color + '">' + subjIcon(q.subject) + '</span>' +
+          '<div class="m-qmain"><div class="m-qtitle">' + q.subject + " — " + q.title + "</div>" +
+          '<div class="m-qmeta"><span class="tag ' + q.typeCls + '">' + q.type + "</span>" +
+          '<span class="tag xp">' + gems(q.diff) + '</span>' +
+          '<span class="tag xp">' + icon(IC.zap, 11) + " " + q.xp + " XP</span>" +
+          '<span class="m-due">' + icon(IC.clock, 12) + " Due " + q.due + "</span></div></div>" +
+          btn + "</div>";
+      }
+
+      function statusPill(q){
+        var cls = q.status==='done' ? ' done' : q.status==='in-progress' ? ' prog' : '';
+        return '<span class="status-pill'+cls+'">'+q.statusLabel+'</span>';
+      }
+      var boardFilters = { type: "All", subject: "All", status: "All" };
+      var detailState = { idx: 0, steps: {}, completed: {}, justCompleted: false, quizPassed: {} };
+      function shuffleArr(a){ var x=a.slice(); for(var i=x.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=x[i]; x[i]=x[j]; x[j]=t; } return x; }
+      function mkQ(q, correct, ds){ var opts=[String(correct)]; ds.forEach(function(d){ d=String(d); if(opts.indexOf(d)<0) opts.push(d); }); while(opts.length<4) opts.push(String(correct+11+opts.length)); return { q:q, opts:opts, correct:String(correct) }; }
+      var QUEST_QUIZ = [2,3,4,5,6].map(function(a){ return mkQ("What is the value of lim x\u2192"+a+" (x\u00b2 \u2212 "+(a*a)+") / (x \u2212 "+a+")?", 2*a, [a, 2*a+2, a+1]); });
+      var BOSS_QS = [];
+      (function(){ for(var a=2;a<=11;a++) BOSS_QS.push(mkQ("What is lim x\u2192"+a+" (x\u00b2 \u2212 "+(a*a)+") / (x \u2212 "+a+")?", 2*a, [a, 2*a+2, a+1]));
+        for(var b=1;b<=5;b++) BOSS_QS.push(mkQ("What is lim x\u2192"+b+" (x\u00b3 \u2212 "+(b*b*b)+") / (x \u2212 "+b+")?", 3*b*b, [b*b, 2*b*b, 3*b*b+3]));
+        for(var c=1;c<=5;c++) BOSS_QS.push(mkQ("What is lim x\u2192"+c+" (2x + 3)?", 2*c+3, [c+3, 2*c, 2*c+5])); })();
+      var quizState = { active:false, qIdx:0, correct:0, phase:"answer", selected:null, finished:false, lastPassed:false, best:0, attempts:0, msg:"" };
+      var bossState = { started:false, attemptsUsed:1, order:[], qIdx:0, opts:[], bossHp:100, playerHp:100, wrongStreak:0, streak:0, answerXp:0, streakXp:0, correct:0, phase:"answer", selected:null, finished:false, result:null, failReason:"", msg:"" };
+      function bossPrepare(){ var q=BOSS_QS[bossState.order[bossState.qIdx]]; bossState.opts = shuffleArr(q.opts); bossState.selected=null; bossState.phase="answer"; }
+      function bossNewAttempt(){ var used=bossState.attemptsUsed; bossState = { started:true, attemptsUsed:used, order:shuffleArr(BOSS_QS.map(function(_,i){return i;})), qIdx:0, opts:[], bossHp:100, playerHp:100, wrongStreak:0, streak:0, answerXp:0, streakXp:0, correct:0, phase:"answer", selected:null, finished:false, result:null, failReason:"", msg:"" }; bossPrepare(); timerSecs=3600; }
+      function bossFinish(result, reason){ bossState.finished=true; bossState.result=result; bossState.failReason=reason||""; bossState.phase="done"; }
+      function detailStepsDone(q){
+        var saved = detailState.steps[QUESTS.indexOf(q)];
+        if (saved) return saved;
+        if (q.status === 'done') return q.steps.map(function(){ return true; });
+        if (q.status === 'in-progress') return q.steps.map(function(_, i){ return i < q.steps.length - 1; });
+        return q.steps.map(function(){ return false; });
+      }
+      function boardCard(q){
+        var idx = QUESTS.indexOf(q);
+        return '<button type="button" class="m-qcard board-card js-open-detail" data-quest-idx="'+idx+'" style="font-size:inherit">' +
+          '<span class="subj-tile" style="background:'+q.color+'">'+subjIcon(q.subject)+'</span>' +
+          '<span class="m-qmain"><span class="m-qtitle" style="display:block">'+q.subject+' — '+q.title+'</span>' +
+          '<span class="m-qmeta"><span class="tag '+q.typeCls+'">'+q.type+'</span>' +
+          '<span class="tag xp">'+gems(q.diff)+'</span>' +
+          '<span class="tag xp">'+icon(IC.zap,11)+' '+q.xp+' XP</span>' +
+          '<span class="m-due">'+icon(IC.clock,12)+' Due '+q.due+'</span>' + statusPill(q) + '</span></span>' +
+          '<span class="m-qbtn ghost">View</span></button>';
+      }
+      function filterChips(group, values, current){
+        return '<div class="filter-row" role="group" aria-label="'+group+' filter">'+values.map(function(v){
+          return '<button type="button" class="filter-chip js-filter" data-filter-group="'+group+'" data-filter-value="'+v+'" aria-pressed="'+(v===current?'true':'false')+'">'+v+'</button>';
+        }).join('')+'</div>';
+      }
+      function questBoardHTML(){
+        var filtered = QUESTS.filter(function(q){
+          return (boardFilters.type==='All' || q.type===boardFilters.type) &&
+                 (boardFilters.subject==='All' || q.subject===boardFilters.subject) &&
+                 (boardFilters.status==='All' || q.statusLabel===boardFilters.status);
+        });
+        var cards = filtered.length ? filtered.map(boardCard).join('') :
+          '<div class="m-qcard"><div class="m-qmain"><div class="m-qtitle">No quests match these filters</div><div class="m-qmeta"><span>Try a different combination — or clear the filters below.</span></div></div></div>';
+        return topbar("Quests") + '<div class="m-body">' +
+          '<div class="m-greet"><div class="layout-note">▦ Quest board · Calm list layout — no timer, no HP, no boss</div><h3>Quest Board</h3><p>4 quests · 1 due soonest Fri 13 Nov · Pick a quest to open its detail. Study screens stay calm; the drama is saved for the boss.</p></div>' +
+          '<div class="filter-block"><span class="filter-label">Type</span>'+filterChips('type',['All','Assignment','Revision'],boardFilters.type)+'</div>' +
+          '<div class="filter-block"><span class="filter-label">Subject</span>'+filterChips('subject',['All','Matematika','Biologi','Fisika','Bahasa Inggris'],boardFilters.subject)+'</div>' +
+          '<div class="filter-block"><span class="filter-label">Status</span>'+filterChips('status',['All','Not started','In progress','Done'],boardFilters.status)+'</div>' +
+          '<div class="m-sec-head"><h4>Showing '+filtered.length+' of '+QUESTS.length+' quests</h4></div>' +
+          '<div class="m-quests">'+cards+'</div>' +
+          '<p style="font-size:.82rem;color:var(--mm);font-weight:600;margin:0">In the real app these filters call GET /api/quests/ with type, subject and status parameters. Here they filter the sample quests so the behaviour can be seen.</p>' +
+          '</div>';
+      }
+      function quizPassedFor(idx){ return !!detailState.quizPassed[idx] || quizState.best >= 4 && idx===0 && quizState.attempts>0 && quizState.lastPassed; }
+      function quizPanelHTML(q){
+        if (q.quizStepIndex === undefined) return '';
+        if (quizState.finished && !quizState.active) {
+          var pct = Math.round(quizState.correct/5*100);
+          return '<div class="quiz-panel"><h4 style="margin:0 0 6px">'+(quizState.lastPassed?'Quiz passed!':'Not quite yet')+'</h4><p style="margin:0 0 8px;font-weight:700">Score: '+quizState.correct+' / 5 \u00b7 '+pct+'% \u00b7 '+(quizState.lastPassed?'Passed (pass line 80%)':'Below the 80% pass line (4 of 5)')+' \u00b7 Best attempt: '+quizState.best+' / 5</p><p style="margin:0 0 10px">'+(quizState.lastPassed?'The quiz step is now ticked \u2014 you can complete the quest.':'The quiz step stays unticked and the quest stays incomplete. Retry as often as you like; your best attempt counts.')+'</p><button type="button" class="quiz-start-btn js-start-quiz">Retry Quiz</button></div>';
+        }
+        if (!quizState.active) return '';
+        var qq = QUEST_QUIZ[quizState.qIdx];
+        var ans = qq.opts.map(function(o,i){ var sel = quizState.selected===o; return '<button type="button" class="m-ans js-quiz-ans'+(sel?' sel':'')+'" data-value="'+o+'" '+(quizState.phase==='feedback'?'disabled':'')+'><span class="letter">'+'ABCD'[i]+'</span>'+o+'</button>'; }).join('');
+        var btn = quizState.phase==='feedback' ? '<button type="button" class="m-check-btn js-quiz-next">'+(quizState.qIdx===4?'See Result':'Next Question')+'</button>' : '<button type="button" class="m-check-btn js-quiz-check">Check Answer</button>';
+        return '<div class="quiz-panel"><div class="qk" style="font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--mm)">Quest quiz \u00b7 Question '+(quizState.qIdx+1)+' of 5 \u00b7 No timer \u00b7 Pass: 4 of 5</div><div style="font-size:1.08rem;font-weight:700;margin:8px 0 12px">'+qq.q+'</div><div class="m-answers">'+ans+'</div><p style="font-weight:700;min-height:1.2em;margin:10px 0">'+quizState.msg+'</p><div style="text-align:right">'+btn+'</div></div>';
+      }
+      function questDetailHTML(){
+        var q = QUESTS[detailState.idx];
+        var doneSteps = detailStepsDone(q);
+        var isDone = !!detailState.completed[detailState.idx] || q.status==='done';
+        var stepsDoneCount = doneSteps.filter(Boolean).length;
+        var xpNow = isDone && detailState.completed[detailState.idx] ? 1240 + q.xp : 1240;
+        var xpPct = (xpNow/1400*100).toFixed(1);
+        var quizPassed = isDone || quizPassedFor(detailState.idx);
+        var steps = q.steps.map(function(s2, i){
+          if (q.quizStepIndex === i) {
+            return '<div class="step-row'+(isDone?' locked':'')+'"><span class="step-box'+(quizPassed?' done':'')+'">'+(quizPassed?icon(IC.check,13):'')+'</span><span style="flex:1" class="'+(quizPassed?'done-label':'')+'">'+s2+(quizState.best>0?' \u00b7 Best: '+quizState.best+' / 5':'')+'<br><span style="font-size:.78rem;color:var(--mm);font-weight:600">Not self-ticked \u2014 this step ticks only when you pass the quiz.</span></span>'+(quizPassed||isDone?'':'<button type="button" class="quiz-start-btn js-start-quiz">'+(quizState.active?'Quiz in progress\u2026':'Start Quiz')+'</button>')+'</div>';
+          }
+          var ticked = isDone ? true : doneSteps[i];
+          return '<button type="button" class="step-row js-step'+(isDone?' locked':'')+'" data-step-idx="'+i+'" '+(isDone?'disabled':'')+'><span class="step-box'+(ticked?' done':'')+'">'+(ticked?icon(IC.check,13):'')+'</span><span class="'+(ticked?'done-label':'')+'">'+s2+'</span></button>';
+        }).join('');
+        var stepsDoneCount2 = doneSteps.filter(function(v,i){ return q.quizStepIndex===i ? quizPassed : v; }).length;
+        var needsQuiz = q.quizStepIndex !== undefined && !quizPassed;
+        var action = isDone
+          ? '<div class="completed-banner">'+icon(IC.check,18)+' Done · +'+q.xp+' XP earned — nice work. This quest now shows as Done on the board.</div>'
+          : needsQuiz
+            ? '<button type="button" class="complete-btn" disabled>Complete Quest · +'+q.xp+' XP</button><p style="font-size:.84rem;color:#b02a2e;font-weight:700;margin:0">Pass the quest quiz (4 of 5) to complete this quest \u2014 the quiz step above is still unticked.</p>'
+            : '<button type="button" class="complete-btn js-complete-quest">Complete Quest · +'+q.xp+' XP</button>';
+        var bossBlock = '';
+        if (q.linkedBoss) {
+          bossBlock = isDone
+            ? '<div class="boss-unlocked"><div class="boss-sprite small" data-boss-sprite>'+golemSVG()+'</div><div style="flex:1;min-width:200px"><div style="font-family:var(--mhfont);font-weight:700;font-size:1.02rem">Boss unlocked — Limit &amp; Turunan</div><div style="font-size:.86rem;font-weight:700">You finished the study material, so the Granite Golem boss quiz is open.</div></div><button type="button" class="fight-btn js-fight-boss">Fight the Boss</button></div>'
+            : '<div class="boss-locked">'+icon(IC.shield,20)+'<span><b>Boss locked</b> · Finish this quest to unlock the Limit &amp; Turunan boss quiz.</span></div>';
+        }
+        return topbar("Quests") + '<div class="m-body">' +
+          '<button type="button" class="back-btn js-back-board">← Back to Quest Board</button>' +
+          '<div class="detail-head"><span class="reward-pop'+(detailState.justCompleted?' show':'')+'">+'+q.xp+' XP · Quest complete!</span>' +
+          '<div style="display:flex;gap:13px;align-items:flex-start"><span class="subj-tile" style="background:'+q.color+';width:56px;height:56px">'+subjIcon(q.subject,30)+'</span>' +
+          '<div class="m-qmain"><div class="m-qtitle" style="font-family:var(--mhfont);font-size:1.22rem">'+q.title+'</div>' +
+          '<div class="m-qmeta"><span>'+q.subject+'</span><span class="tag '+q.typeCls+'">'+q.type+'</span>'+statusPill(isDone?{status:'done',statusLabel:'Done'}:q)+'</div></div></div>' +
+          '<div style="margin-top:14px"><div class="hp-label" style="display:flex;justify-content:space-between;font-size:.74rem;font-weight:700;color:var(--mm)"><span>Your XP — Level 7</span><span>'+xpNow.toLocaleString()+' / 1,400 XP</span></div>' +
+          '<div class="m-bar xp-bar-anim" style="height:15px"><i style="width:'+xpPct+'%"></i></div>' +
+          '<div style="font-size:.78rem;color:var(--mm);font-weight:600;margin-top:4px">'+(isDone?'The bar just moved — completing a quest gives the same reward moment as landing a boss hit, without the fight.':'Complete this quest to move the bar — the same reward moment as a boss hit, in calmer colours.')+'</div></div></div>' +
+          '<div class="detail-tiles">' +
+          '<div class="m-stat"><div class="k">'+icon(IC.zap,12)+' XP reward</div><div class="v">'+q.xp+' XP</div><div class="s">paid on completion</div></div>' +
+          '<div class="m-stat"><div class="k">'+icon(IC.clock,12)+' Deadline</div><div class="v" style="font-size:1rem;padding-top:4px">'+q.due+'</div><div class="s">the only pressure here</div></div>' +
+          '<div class="m-stat"><div class="k">Difficulty</div><div style="margin-top:7px">'+gems(q.diff)+'</div><div class="s">shown as gems + word</div></div></div>' +
+          '<div><div class="m-sec-head" style="margin-bottom:8px"><h4>What to do</h4></div><p style="margin:0;line-height:1.55">'+q.desc+'</p></div>' +
+          '<div><div class="m-sec-head" style="margin-bottom:10px"><h4>Steps</h4><span class="tag xp">'+stepsDoneCount2+' of '+q.steps.length+' steps</span></div>' +
+          '<div style="display:flex;flex-direction:column;gap:8px">'+steps+'</div>' +
+          '<div class="m-bar" style="margin-top:10px"><i style="width:'+(stepsDoneCount2/q.steps.length*100)+'%"></i></div></div>' +
+          quizPanelHTML(q) + action + bossBlock +
+          '<p style="font-size:.82rem;color:var(--mm);font-weight:600;margin:0">No timer, no HP bar, no damage on this screen. Ordinary steps are self-ticked; the quiz step ticks only on a passing quiz attempt (4 of 5), and the quest cannot complete until it does. In the real app the detail loads from GET /api/quests/{id}/, steps save with PATCH, quiz attempts post to the quiz attempts endpoint, and completion is confirmed by the API before the reward shows.</p>' +
+          '</div>';
+      }
+
+      function bossTeaser(styleId) {
+        return '<div class="m-boss"><div class="boss-stage"><span class="dmg-pop">-10 DAMAGE</span><div class="speech">Granite Golem: \u201cSolve my limits\u2026 if you can!\u201d</div>'+bossSprite(styleId,'')+'<div style="font-weight:900;position:relative;z-index:2;color:#111;background:#fff;display:inline-block;padding:3px 10px;border-radius:99px;margin-top:4px">GRANITE GOLEM \u00b7 Lv.7 Boss</div></div><div class="b-top"><div><h4>Boss Fight \u2014 Kuis Matematika</h4>' +
+          '<div class="b-sub">Limit &amp; Turunan \u00b7 Boss exam \u00b7 20 questions \u00b7 1 hour \u00b7 Win bonus +100 XP</div></div>' +
+          '<span class="timer">' + icon(IC.clock, 13) + ' <span class="js-timer">60:00</span></span></div>' +
+          '<div><div class="hp-label"><span>Boss HP</span><span class="js-hp-label">100 / 100</span></div>' +
+          '<div class="m-bar hp"><i class="js-hp-fill" style="width:100%;background:#e5484d"></i></div></div>' +
+          '<button type="button" class="start">Start Boss Fight</button></div>';
+      }
+
+      function dashboardHTML(styleId) {
+        var quests = QUESTS.map(function (q) { return questCard(q, false, styleId); }).join("");
+        var mastery = (styleId === "khan" || styleId === "hybrid") ? masteryRow() : "";
+        if(styleId==='duo'){
+          var path = QUESTS.map(function(q,i){return '<div class="path-node"><span class="path-dot" style="background:'+q.color+'">'+subjIcon(q.subject,26)+'</span><div class="m-qmain"><div class="m-qtitle">'+q.title+'</div><div class="m-qmeta">'+gems(q.diff)+'<span class="tag xp">'+q.xp+' XP</span><span class="m-due">Due '+q.due+'</span></div></div><button type="button" class="m-qbtn js-quest-btn">'+(q.done?'Done':'Start')+'</button><span class="m-check '+(q.done?'done':'')+'" style="display:none"></span></div>';}).join("");
+          return topbar("Dashboard")+'<div class="m-body"><div style="display:flex;gap:14px;align-items:center"><div style="flex:none">'+heroSVG()+'</div><div class="m-greet"><div class="layout-note">● Learning path layout</div><h3>Good afternoon, Mobius!</h3><p>Follow the path — one node, one quest. Big, chunky and bouncy.</p></div></div>'+statsStrip(styleId)+'<div><div class="m-sec-head"><h4>Today\'s Path</h4></div><div class="path-list">'+path+'</div></div>'+bossTeaser(styleId)+badgeRow()+'</div>';
+        }
+        if(styleId==='rpg'){
+          var bounty = QUESTS.map(function(q){return '<div class="m-qcard" style="flex-direction:column"><span class="subj-tile" style="background:'+q.color+'">'+subjIcon(q.subject)+'</span><div class="m-qmain"><div class="m-qtitle">'+q.title+'</div><div class="m-qmeta">'+gems(q.diff)+'<span class="tag xp">'+q.xp+' XP · '+q.subject+'</span><span class="m-due">Due '+q.due+'</span></div></div><button type="button" class="m-qbtn js-quest-btn">Accept Quest</button><span class="m-check" style="display:none"></span></div>';}).join("");
+          return topbar("Dashboard")+'<div class="m-body"><div class="hero-panel">'+heroSVG()+'<div><div class="layout-note" style="color:#f2c14e">◆ Hero panel · Bounty board layout</div><h3>Mobius, Lv.7 Scholar</h3><p style="color:#b3a6d9;font-size:.86rem">HP 84/100 · MP 40/60 · Gold 320 · Guild: XII IPA 1</p></div></div>'+statsStrip(styleId)+'<div><div class="m-sec-head"><h4>Bounty Board</h4><span class="tag xp">4 contracts</span></div><div class="bounty-grid" style="margin-top:10px">'+bounty+'</div></div>'+bossTeaser(styleId)+badgeRow()+'</div>';
+        }
+        if(styleId==='classroom'){
+          return topbar("Dashboard")+'<div class="m-body"><div style="background:#0b8043;color:#fff;border-radius:8px;padding:16px"><div class="layout-note" style="color:#c8e6c9">■ Class banner · Flat list layout — almost no game art, on purpose</div><h3 style="color:#fff">XII IPA 1 · Good afternoon, Mobius</h3><p style="color:#e6f4ea;font-size:.86rem">Level 7 · 1,240 XP · 12-day streak · Daily goal 3 of 4</p></div><div><div class="m-sec-head"><h4>Assigned work</h4><div class="m-tabs"><span class="on">All</span><span>Assignment</span><span>Revision</span></div></div><div class="m-quests" style="margin-top:10px">'+quests+'</div></div>'+bossTeaser(styleId)+'</div>';
+        }
+        if(styleId==='calm'){
+          return topbar("Dashboard")+'<div class="m-body"><div class="m-greet"><div class="layout-note">— Sidebar + compact list layout</div><h3>Today</h3><p>Level 7 · 1,240/1,400 XP · 12-day streak · 3 of 4 done</p></div><div class="calm-layout"><aside class="calm-side"><b>▦ Today</b><span>'+subjIcon('Matematika',16)+' Matematika</span><span>'+subjIcon('Biologi',16)+' Biologi</span><span>'+subjIcon('Fisika',16)+' Fisika</span><span>'+subjIcon('Bahasa Inggris',16)+' English</span><span>◐ Upcoming</span><span>✓ Completed</span></aside><div class="m-quests">'+quests+'</div></div>'+bossTeaser(styleId)+'</div>';
+        }
+        if(styleId==='khan'){
+          var grid = QUESTS.map(function(q){return questCard(q,false,styleId);}).join("");
+          return topbar("Dashboard")+'<div class="m-body"><div class="m-greet"><div class="layout-note">◎ Mastery-first grid layout</div><h3>Keep growing, Mobius</h3><p>Your skills are the headline — quests sit underneath the rings.</p></div>'+masteryRow()+'<div><div class="m-sec-head"><h4>Continue learning</h4></div><div class="khan-grid" style="margin-top:10px">'+grid+'</div></div>'+statsStrip(styleId)+bossTeaser(styleId)+badgeRow()+'</div>';
+        }
+        return topbar("Dashboard") +
+          '<div class="m-body">' +
+          '<div class="m-greet"><div class="layout-note">✦ Card stack · Icon-led layout</div><h3>Good afternoon, Mobius</h3><p>One quest left for today\'s goal — the boss is waiting when you\'re ready.</p></div>' +
+          statsStrip(styleId) + mastery +
+          '<div><div class="m-sec-head" style="margin-bottom:10px"><h4>Quest Board</h4>' +
+          '<div class="m-tabs"><span class="on">All</span><span>Assignment</span><span>Revision</span></div></div>' +
+          '<div class="m-quests">' + quests + "</div></div>" +
+          bossTeaser(styleId) + badgeRow() +
+          "</div>";
+      }
+
+      function teacherHTML(styleId) {
+        var rows = STUDENTS.map(function (s) {
+          return '<div class="m-trow"><span class="who"><span class="m-avatar">' + s.init + "</span>" + s.name + "</span>" +
+            "<span>" + s.quests + "</span>" +
+            '<span class="hide-m">' + s.xp + " XP</span>" +
+            '<span class="hide-m">' + s.quiz + "</span>" +
+            '<span><span class="status ' + s.cls + '">' + s.status + "</span></span></div>";
+        }).join("");
+        var quests = QUESTS.map(function (q) { return questCard(q, true, styleId); }).join("");
+        return topbar("Dashboard") +
+          '<div class="m-body">' +
+          '<div class="m-greet"><div class="layout-note">' + (styleId==='duo'?'● Chunky rounded teacher cards':styleId==='rpg'?'◆ Guild roster · RPG panels':styleId==='classroom'?'■ Familiar Classroom table':styleId==='calm'?'— Compact roster, minimal chrome':'◎ Mastery-aware roster') + '</div><h3>Kelas XII IPA 1</h3><p>32 students · Teacher view — create quests and quizzes, follow progress and scores.</p></div>' +
+          '<div class="m-create-row"><button type="button" class="m-create">' + icon(IC.plus, 14) + ' Create Quest</button>' +
+          '<button type="button" class="m-create ghost">' + icon(IC.sword, 14) + " Create Boss Quiz</button></div>" +
+          '<div class="m-stats">' +
+          '<div class="m-stat"><div class="k">Active quests</div><div class="v">4</div><div class="s">2 Assignment · 2 Revision</div></div>' +
+          '<div class="m-stat"><div class="k">Avg completion</div><div class="v">78%</div><div class="s">across the class</div></div>' +
+          '<div class="m-stat"><div class="k">Boss quizzes</div><div class="v">2</div><div class="s">1 live this week</div></div>' +
+          '<div class="m-stat"><div class="k">Avg quiz score</div><div class="v">81</div><div class="s">last boss fight</div></div></div>' +
+          '<div><div class="m-sec-head" style="margin-bottom:10px"><h4>Student progress</h4></div>' +
+          '<div class="m-twrap"><div class="m-trow head"><span>Student</span><span>Quests</span><span class="hide-m">XP</span><span class="hide-m">Last quiz</span><span>Status</span></div>' +
+          rows + "</div></div>" +
+          '<div><div class="m-sec-head" style="margin-bottom:10px"><h4>Quests you\'ve set</h4></div>' +
+          '<div class="m-quests">' + quests + "</div></div>" +
+          "</div>";
+      }
+
+      function bossHTML(styleId) {
+        if (!bossState.started) bossNewAttempt();
+        var b = bossState;
+        var arena = '<div class="boss-stage"><span class="dmg-pop">-10 DAMAGE</span><div class="speech">\u201cFactorise this!\u201d \u2014 Granite Golem</div>'+bossSprite(styleId,'large')+'<div style="position:relative;z-index:2;font-weight:900;color:#111;background:#fff;display:inline-block;padding:3px 10px;border-radius:99px">GRANITE GOLEM \u00b7 Animated sprite</div></div>';
+        var head = '<div class="m-fight-head"><div class="m-fight-top">' +
+          '<div class="m-bossname"><span class="m-bossface">' + icon(IC.sword, 20) + '</span><span>Boss Exam \u2014 Limit &amp; Turunan<br><span style="font-size:.78rem;color:var(--mm);font-family:var(--mfont);font-weight:600">Kuis Matematika \u00b7 Question '+(b.qIdx+1)+' of 20</span></span></div>' +
+          '<span style="display:flex;gap:6px;flex-wrap:wrap"><span class="attempt-pill">Attempt '+b.attemptsUsed+' of 3 \u00b7 '+(3-b.attemptsUsed)+' retries left</span><span class="streak-pill">'+icon(IC.flame,12)+' Streak \u00d7 '+b.streak+'</span>' +
+          '<span class="timer" style="background:var(--ms2);border:1px solid var(--mbord);border-radius:999px;padding:5px 13px;font-weight:900;font-variant-numeric:tabular-nums">' + icon(IC.clock, 13) + ' <span class="js-timer">60:00</span></span></span></div>' +
+          '<div><div class="hp-label" style="display:flex;justify-content:space-between;font-size:.74rem;font-weight:700;color:var(--mm)"><span>Boss HP</span><span>'+b.bossHp+' / 100</span></div>' +
+          '<div class="m-bar hp" style="height:13px"><i style="width:'+b.bossHp+'%"></i></div></div>' +
+          '<div><div class="hp-label" style="display:flex;justify-content:space-between;font-size:.74rem;font-weight:700;color:var(--mm)"><span>Your HP</span><span>'+b.playerHp+' / 100</span></div>' +
+          '<div class="m-bar" style="height:13px"><i style="width:'+b.playerHp+'%;background:#2563eb"></i></div></div>' +
+          '<div style="font-size:.8rem;color:var(--mm);font-weight:700">Correct: +5 XP and 10 damage \u00b7 Streak of 3+: +5 bonus XP per correct \u00b7 Win: +100 XP \u00b7 First wrong in a row is free, then \u221210 HP each \u00b7 XP earned this attempt: '+(b.answerXp+b.streakXp+(b.result==='win'?100:0))+' XP</div></div>';
+        if (b.finished) {
+          var totalXp = b.answerXp + b.streakXp + (b.result==='win' ? 100 : 0);
+          var panel = b.result==='win'
+            ? '<div class="end-panel win"><h4>Boss defeated!</h4><p style="font-weight:700">You answered '+b.correct+' correctly. The Granite Golem crumbles.</p><p>Per-answer XP: '+b.answerXp+' \u00b7 Streak bonus XP: '+b.streakXp+' \u00b7 Win bonus: +100 XP<br><b>Total: '+totalXp+' XP</b> \u00b7 Boss Slayer badge earned!</p><button type="button" class="m-check-btn js-back-dash">Back to Dashboard</button></div>'
+            : '<div class="end-panel lose"><h4>Exam failed</h4><p style="font-weight:700">'+b.failReason+'</p><p>Correct answers: '+b.correct+' \u00b7 Boss HP left: '+b.bossHp+' / 100 \u00b7 Your HP: '+b.playerHp+' / 100 \u00b7 XP from this attempt: '+totalXp+'</p>'+(b.attemptsUsed<3?'<button type="button" class="retry-btn js-retry-boss">Retry Boss \u00b7 '+(3-b.attemptsUsed)+' retries left</button>':'<p><b>No retries left \u2014 3 attempts used.</b></p>')+' <button type="button" class="m-check-btn js-back-dash">Back to Dashboard</button></div>';
+          return topbar("Quests") + '<div class="m-body">' + arena + head + panel + '</div>';
+        }
+        var q = BOSS_QS[b.order[b.qIdx]];
+        var ans = b.opts.map(function(o,idx){ var sel=b.selected===o; return '<button type="button" class="m-ans js-ans'+(sel?' sel':'')+'" data-value="'+o+'" data-correct="'+(o===q.correct?'1':'0')+'" '+(b.phase==='feedback'?'disabled':'')+'><span class="letter">'+'ABCD'[idx]+"</span>"+o+"</button>"; }).join('');
+        var dots = ''; for (var d=0; d<20; d++) dots += '<i class="'+(d<b.qIdx?'done':d===b.qIdx?'now':'')+'"></i>';
+        var btn = b.phase==='feedback' ? '<button type="button" class="m-check-btn js-next-boss">Next Question</button>' : '<button type="button" class="m-check-btn js-check-answer">Check Answer</button>';
+        return topbar("Quests") + '<div class="m-body">' + arena + head +
+          '<div class="m-question"><div class="qk">Question '+(b.qIdx+1)+' \u00b7 Limits \u00b7 Order and options shuffled for this attempt</div><div class="qt">'+q.q+'</div></div>' +
+          '<div class="m-answers">' + ans + '</div>' +
+          '<p class="js-fight-msg" style="font-size:.86rem;font-weight:700;min-height:1.2em">'+b.msg+'</p>' +
+          '<div class="m-fight-foot"><div class="m-dots">'+dots+'</div>' + btn + '</div></div>';
+      }
+
+      function screenHTML(styleId, screen) {
+        if (screen === "teacher") return teacherHTML(styleId);
+        if (screen === "boss") return bossHTML(styleId);
+        if (screen === "quests") return questBoardHTML();
+        if (screen === "quest-detail") return questDetailHTML();
+        return dashboardHTML(styleId);
+      }
+
+      /* ================= Boss timer (shared countdown) ================= */
+      var timerSecs = 3600;
+      function fmt(s) { return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }
+      function syncTimers() {
+        var els = document.querySelectorAll(".js-timer");
+        for (var i = 0; i < els.length; i++) els[i].textContent = fmt(timerSecs);
+      }
+      
+      function syncTimers() {
+        var els = document.querySelectorAll(".js-timer");
+        for (var i = 0; i < els.length; i++) els[i].textContent = fmt(timerSecs);
+      }
+      setInterval(function () {
+        if (typeof state !== "undefined" && state.screen === "boss" && bossState.started && !bossState.finished) {
+          timerSecs = timerSecs > 0 ? timerSecs - 1 : 0;
+          if (timerSecs === 0) { bossFinish("lose", "The 1 hour ran out \u2014 time expiry counts as a fail."); render(); return; }
+        }
+        syncTimers();
+      }, 1000);
+document.addEventListener("click", function (e) {
+        var filt = e.target.closest(".js-filter");
+        if (filt) {
+          boardFilters[filt.getAttribute("data-filter-group")] = filt.getAttribute("data-filter-value");
+          render();
+          return;
+        }
+        var openD = e.target.closest(".js-open-detail");
+        if (openD) {
+          detailState.idx = parseInt(openD.getAttribute("data-quest-idx"), 10);
+          detailState.justCompleted = false;
+          setScreen("quest-detail");
+          return;
+        }
+        var backB = e.target.closest(".js-back-board");
+        if (backB) { setScreen("quests"); return; }
+        var stepB = e.target.closest(".js-step");
+        if (stepB) {
+          var q0 = QUESTS[detailState.idx];
+          var cur = detailStepsDone(q0).slice();
+          var si = parseInt(stepB.getAttribute("data-step-idx"), 10);
+          if (q0.quizStepIndex === si) return;
+          cur[si] = !cur[si];
+          detailState.steps[detailState.idx] = cur;
+          if (cur.some(Boolean) && q0.status === "not-started") { q0.status = "in-progress"; q0.statusLabel = "In progress"; }
+          render();
+          return;
+        }
+        var compB = e.target.closest(".js-complete-quest");
+        if (compB) {
+          var q1 = QUESTS[detailState.idx];
+          if (q1.quizStepIndex !== undefined && !quizPassedFor(detailState.idx)) return;
+          detailState.completed[detailState.idx] = true;
+          detailState.justCompleted = true;
+          detailState.steps[detailState.idx] = q1.steps.map(function(){ return true; });
+          q1.status = "done"; q1.statusLabel = "Done"; q1.done = true;
+          render();
+          return;
+        }
+        var fightB = e.target.closest(".js-fight-boss");
+        if (fightB) { detailState.justCompleted = false; setScreen("boss"); return; }
+        var startQ = e.target.closest(".js-start-quiz");
+        if (startQ) { quizState = { active:true, qIdx:0, correct:0, phase:"answer", selected:null, finished:false, lastPassed:false, best:quizState.best, attempts:quizState.attempts+1, msg:"" }; render(); return; }
+        var qAns = e.target.closest(".js-quiz-ans");
+        if (qAns) { quizState.selected = qAns.getAttribute("data-value"); quizState.msg = ""; render(); return; }
+        var qCheck = e.target.closest(".js-quiz-check");
+        if (qCheck) {
+          if (!quizState.selected) { quizState.msg = "Pick an answer first."; render(); return; }
+          var qq2 = QUEST_QUIZ[quizState.qIdx];
+          if (quizState.selected === qq2.correct) { quizState.correct++; quizState.msg = "Correct! That answer is right."; }
+          else quizState.msg = "Not quite \u2014 factorise first: (x \u2212 a)(x + a), then cancel. The right answer was " + qq2.correct + ".";
+          quizState.phase = "feedback"; render(); return;
+        }
+        var qNext = e.target.closest(".js-quiz-next");
+        if (qNext) {
+          if (quizState.qIdx >= 4) { quizState.finished = true; quizState.active = false; quizState.lastPassed = quizState.correct >= 4; quizState.best = Math.max(quizState.best, quizState.correct); if (quizState.lastPassed) detailState.quizPassed[detailState.idx] = true; }
+          else { quizState.qIdx++; quizState.phase = "answer"; quizState.selected = null; quizState.msg = ""; }
+          render(); return;
+        }
+        var retryB = e.target.closest(".js-retry-boss");
+        if (retryB) { if (bossState.attemptsUsed < 3) { bossState.attemptsUsed++; bossNewAttempt(); } render(); return; }
+        var backD = e.target.closest(".js-back-dash");
+        if (backD) { setScreen("dashboard"); return; }
+        var nextB = e.target.closest(".js-next-boss");
+        if (nextB) {
+          if (bossState.qIdx >= 19) bossFinish("lose", "The 20 questions ran out with the boss still standing \u2014 that counts as a fail.");
+          else { bossState.qIdx++; bossPrepare(); bossState.msg = ""; }
+          render(); return;
+        }
+
+        var pick = e.target.closest("[data-pick]");
+        if (pick) { setPick(pick.getAttribute("data-pick")); return; }
+
+        var ans = e.target.closest(".js-ans");
+        if (ans) {
+          var wrap = ans.closest(".m-answers");
+          var all = wrap.querySelectorAll(".js-ans");
+          for (var i = 0; i < all.length; i++) all[i].classList.remove("sel");
+          ans.classList.add("sel");
+          var msg = ans.closest(".mock").querySelector(".js-fight-msg");
+          if (msg) msg.textContent = "";
+          return;
+        }
+        var checkBtn = e.target.closest(".js-check-answer");
+        if (checkBtn) {
+          var mock = checkBtn.closest(".mock");
+          var sel = mock.querySelector(".js-ans.sel");
+          if (!sel) { bossState.msg = "Pick an answer first."; render(); return; }
+          bossState.selected = sel.getAttribute("data-value");
+          var wasCorrect = sel.getAttribute("data-correct") === "1";
+          if (wasCorrect) {
+            bossState.bossHp = Math.max(0, bossState.bossHp - 10);
+            bossState.correct++; bossState.streak++; bossState.wrongStreak = 0;
+            bossState.answerXp += 5;
+            var bonus = bossState.streak >= 3 ? 5 : 0;
+            bossState.streakXp += bonus;
+            bossState.msg = "Correct! Hit! -10 DAMAGE, +5 XP" + (bonus ? " plus +5 streak bonus XP (streak \u00d7 " + bossState.streak + ")." : ".") + " Boss HP now " + bossState.bossHp + "/100.";
+            if (bossState.bossHp <= 0) bossFinish("win", "");
+            else bossState.phase = "feedback";
+          } else {
+            bossState.streak = 0; bossState.wrongStreak++;
+            var dmg = bossState.wrongStreak >= 2 ? 10 : 0;
+            bossState.playerHp = Math.max(0, bossState.playerHp - dmg);
+            bossState.msg = dmg ? "Wrong again in a row \u2014 the golem hits back for 10 HP. Your HP is now " + bossState.playerHp + "/100. Hint: factorise the top first." : "Not quite \u2014 first wrong answer in a row is free, so your HP is safe. Hint: factorise the top first: (x \u2212 a)(x + a).";
+            if (bossState.playerHp <= 0) bossFinish("lose", "Your HP reached zero \u2014 after the free first miss, each further wrong answer in a row cost 10 HP (11 in a row loses the fight).");
+            else bossState.phase = "feedback";
+          }
+          render();
+          var spr = document.querySelector("[data-boss-sprite]");
+          var pop = document.querySelector(".dmg-pop");
+          if (wasCorrect && pop) { pop.classList.remove("show"); void pop.offsetWidth; pop.textContent = "-10 DAMAGE"; pop.classList.add("show"); }
+          if (wasCorrect && spr) { spr.classList.add("hit"); if (bossState.result === "win") spr.classList.add("defeated"); }
+          return;
+        }
+        var qb = e.target.closest(".js-quest-btn");
+        if (qb) {
+          var card = qb.closest(".m-qcard") || qb.closest(".path-node") || qb.parentElement;
+          var chk = card.querySelector(".m-check"); if(!chk) return;
+          var done = chk.classList.toggle("done");
+          chk.innerHTML = done ? icon(IC.check, 13) : "";
+          qb.textContent = done ? "Done" : "Start";
+        }
+      });
+
+      var state = { screen: "dashboard" };
+      function render() {
+        document.getElementById("stage").innerHTML =
+          '<div class="mock theme-duo" data-boss-hp="100">' + screenHTML("duo", state.screen) + "</div>";
+        syncTimers();
+        if (state.screen === "quest-detail" && detailState.justCompleted) {
+          var fill = document.querySelector(".xp-bar-anim i");
+          if (fill) {
+            var target = fill.style.width;
+            fill.style.width = "88.6%";
+            setTimeout(function () { fill.style.width = target; }, 60);
+          }
+        }
+      }
+      function setScreen(name) {
+        state.screen = name;
+        var btns = document.querySelectorAll("#tabs button");
+        for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-pressed", btns[i].getAttribute("data-screen") === name ? "true" : "false");
+        render();
+      }
+      document.getElementById("tabs").addEventListener("click", function (e) {
+        var b = e.target.closest("[data-screen]"); if (!b) return;
+        if (b.getAttribute("data-screen") !== "quest-detail") detailState.justCompleted = false;
+        setScreen(b.getAttribute("data-screen"));
+      });
+      render();
+
+    </script>
+  </body>
+</html>
